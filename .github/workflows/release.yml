@@ -33,9 +33,9 @@ jobs:
 
       - name: Build and Publish Docker Image
         env:
-          IMAGE: docker.pkg.github.com/${{ github.repository }}/jkube-test:${{ steps.get_tag_name.outputs.TAG_NAME }}
-          USERNAME: ${{ github.actor }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE: philipreimer/jkube-test:${{ steps.get_tag_name.outputs.TAG_NAME }}
+          USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
         run: |
           - echo "${{ IMAGE }}"
           - ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml test jib:build -Djib.to.image="${{ IMAGE }}" -Djib.to.auth.username="${{ USERNAME }}" -Djib.to.auth.password="${{ TOKEN }}"

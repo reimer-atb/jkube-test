@@ -37,8 +37,8 @@ jobs:
           USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
         run: |
-          - echo "${{ DOCKER_IMAGE }}"
-          - ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml test jib:build -Djib.to.image="${{ DOCKER_IMAGE }}" -Djib.to.auth.username="${{ USERNAME }}" -Djib.to.auth.password="${{ TOKEN }}"
+          - echo "${DOCKER_IMAGE}"
+          - ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml test jib:build -Djib.to.image="${DOCKER_IMAGE}" -Djib.to.auth.username="${USERNAME}" -Djib.to.auth.password="${TOKEN}"
 
       - name: Create Release
         id: create_release

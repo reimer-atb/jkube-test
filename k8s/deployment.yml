@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: jkube-test
-        image: smartclide/jkube-test:0.6.0
+        image: smartclide/jkube-test:0.7.0
         ports:
           - containerPort: 9000
         resources:

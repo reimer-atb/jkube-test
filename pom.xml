@@ -12,7 +12,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>jkube-test</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
 
     <name>jkube-test</name>
     <description>Demo project for Spring Boot with JKube</description>

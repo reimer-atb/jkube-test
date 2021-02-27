@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jkube-test
+  name: jkube-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jkube-test
+  template:
+    metadata:
+      labels:
+        app: jkube-test
+    spec:
+      containers:
+      - name: jkube-test
+        image: smartclide/jkube-test:0.6.0
+        ports:
+          - containerPort: 9000
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jkube-test
+  name: jkube-test
+spec:
+  selector:
+    app: jkube-test
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9000
+    targetPort: 9000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jkube-test
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jkube-test
+            port:
+              number: 9000

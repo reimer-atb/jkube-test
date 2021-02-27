@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.BodyInserters.fromValue
 import org.springframework.web.reactive.function.server.router
+import java.net.InetAddress.getLocalHost
 
 @SpringBootApplication
 class JKubeTestApplication
@@ -20,7 +21,8 @@ class RouterConfiguration {
     @Bean
     fun router() = router {
         GET("/") {
-            ok().body(fromValue("Hello from Container!"))
+            val hostName = getLocalHost().hostAddress
+            ok().body(fromValue("Hello from Container - HostName: $hostName"))
         }
     }
 }

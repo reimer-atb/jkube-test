@@ -1,4 +1,4 @@
-name: release
+name: publish
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - '[0-9].[0-9]+.[0-9]+'
 
 jobs:
-  release:
+  publish:
 
     runs-on: ubuntu-latest
 
@@ -34,19 +34,8 @@ jobs:
       - name: Build and Publish Docker Image
         env:
           CONTAINER_IMAGE_VERSION: ${{ steps.get_tag_name.outputs.TAG_NAME }}
-          CONTAINER_REGISTRY_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          CONTAINER_REGISTRY_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+          CONTAINER_REGISTRY_USERNAME: ${{ secrets.GHCR_USER }}
+          CONTAINER_REGISTRY_TOKEN: ${{ secrets.GHCR_PAT }}
         run: |
           echo "${DOCKER_IMAGE}"
-          ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml test jib:build -Dcontainer-image.version="${CONTAINER_IMAGE_VERSION}" -Djib.to.auth.username="${CONTAINER_REGISTRY_USERNAME}" -Djib.to.auth.password="${CONTAINER_REGISTRY_TOKEN}"
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          draft: false
-          prerelease: false
+          ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml test jib:build -Djib.to.image="ghcr.io/smartclide/jkube-test:${CONTAINER_IMAGE_VERSION}" -Djib.to.auth.username="${CONTAINER_REGISTRY_USERNAME}" -Djib.to.auth.password="${CONTAINER_REGISTRY_TOKEN}"

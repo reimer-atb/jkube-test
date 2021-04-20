@@ -34,8 +34,8 @@ jobs:
       - name: Build and Publish Docker Image
         env:
           CONTAINER_IMAGE_VERSION: ${{ steps.get_tag_name.outputs.TAG_NAME }}
-          CONTAINER_REGISTRY_USERNAME: ${{ secrets.GHCR_USER }}
-          CONTAINER_REGISTRY_TOKEN: ${{ secrets.GHCR_PAT }}
+          CONTAINER_REGISTRY_USERNAME: ${GITHUB_ACTOR}
+          CONTAINER_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "${DOCKER_IMAGE}"
           ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml test jib:build -Djib.to.image="ghcr.io/smartclide/jkube-test:${CONTAINER_IMAGE_VERSION}" -Djib.to.auth.username="${CONTAINER_REGISTRY_USERNAME}" -Djib.to.auth.password="${CONTAINER_REGISTRY_TOKEN}"

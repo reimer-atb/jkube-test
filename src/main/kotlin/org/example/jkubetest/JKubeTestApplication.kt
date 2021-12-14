@@ -4,8 +4,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.reactive.function.BodyInserters.fromValue
 import org.springframework.web.reactive.function.server.router
+import reactor.core.publisher.Mono.fromCallable
+import reactor.core.scheduler.Schedulers
 import java.net.InetAddress.getLocalHost
 
 @SpringBootApplication
@@ -21,8 +22,11 @@ class RouterConfiguration {
     @Bean
     fun router() = router {
         GET("/") {
-            val hostName = getLocalHost().hostAddress
-            ok().body(fromValue("Hello from Container - HostName: $hostName"))
+            fromCallable { getLocalHost() }
+                .subscribeOn(Schedulers.boundedElastic())
+                .flatMap {
+                    ok().bodyValue("Hello from Container - HostName: ${it.hostAddress}")
+                }
         }
     }
 }

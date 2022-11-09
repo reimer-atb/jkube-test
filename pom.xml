@@ -19,7 +19,7 @@
 
     <properties>
         <!--general properties-->
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <!--plugin versions-->
         <maven-enforcer-plugin.version>3.0.0</maven-enforcer-plugin.version>
         <jib-maven-plugin.version>3.2.1</jib-maven-plugin.version>
@@ -81,7 +81,7 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>11</version>
+                                    <version>${java.version}</version>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
                                     <version>3.6.3</version>
@@ -101,12 +101,15 @@
                 <version>${jib-maven-plugin.version}</version>
                 <configuration>
                     <from>
-                        <image>openjdk:11.0.10-jre-slim-buster</image>
+                        <image>
+                            eclipse-temurin:17.0.4.1_1-jre-jammy@sha256:4cc7dfdfb7837f35c3820bcfbc5f666521364e2198960322848ab7d3e2ca3e88
+                        </image>
                     </from>
                     <to>
                         <image>ghcr.io/philipreimer/${project.artifactId}:latest</image>
                     </to>
                     <container>
+                        <format>OCI</format>
                         <ports>
                             <port>9000</port>
                         </ports>

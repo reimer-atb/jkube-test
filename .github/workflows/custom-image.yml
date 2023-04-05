@@ -27,10 +27,24 @@ jobs:
         run: |
           cd cloned/smartclide-context
           pwd
+          echo "-----"
           git config --list
+          echo "-----"
           git show
+          echo "-----"
+          git config user.name foo
+          git config user.email foo@bar.com
+          echo "-----"
           git checkout -b test-branch
+          echo "-----"
           touch test-file
+          echo "-----"
           echo "this is a test" >> test-file
+          cat test-files
+          echo "-----"
           git add test-file
+          echo "-----"
           git commit -m "add test file"
+          echo "-----"
+          git show
+          echo "-----"

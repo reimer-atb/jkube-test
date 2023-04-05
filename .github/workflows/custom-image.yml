@@ -35,12 +35,14 @@ jobs:
           git config user.name foo
           git config user.email foo@bar.com
           echo "-----"
+          git config --list
+          echo "-----"
           git checkout -b test-branch
           echo "-----"
           touch test-file
           echo "-----"
           echo "this is a test" >> test-file
-          cat test-files
+          cat test-file
           echo "-----"
           git add test-file
           echo "-----"

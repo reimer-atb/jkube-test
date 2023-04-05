@@ -1,0 +1,21 @@
+name: custom-image
+
+on:
+  push:
+    branches:
+      - custom-image
+    tags-ignore:
+      - '**'
+  pull_request:
+    branches:
+      - custom-image
+
+jobs:
+  custom-image:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: List Files
+        run: ls -alh

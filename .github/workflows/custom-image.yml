@@ -25,5 +25,9 @@ jobs:
           git clone https://github.com/eclipse-opensmartclide/smartclide-context.git
       - name: List files
         run: |
+          cd cloned
+          pwd
+          ls -alh
+          cd smartclide-context
           pwd
           ls -alh

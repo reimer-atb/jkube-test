@@ -24,7 +24,7 @@
         <java.version>17</java.version>
         <!--plugin versions-->
         <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
-        <jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
+        <jib-maven-plugin.version>3.3.2</jib-maven-plugin.version>
     </properties>
 
     <dependencies>

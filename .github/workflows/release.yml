@@ -28,6 +28,14 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('./**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
+      - name: Adjust version tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml versions:set -DgenerateBackupPoms=false -DnewVersion="${GITHUB_REF#refs/tags/}"
+
+      - name: Adjust version latest
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        run: ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml versions:set -DgenerateBackupPoms=false -DnewVersion=latest
+
       - name: Package
         run: ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml package
 
@@ -37,7 +45,7 @@ jobs:
         with:
           prerelease: false
           generate_release_notes: true
-          files: target/jkube-test-0.0.1.jar
+          files: target/jkube-test-"${GITHUB_REF#refs/tags/}".jar
 
       - name: Release latest
         uses: softprops/action-gh-release@v1
@@ -47,4 +55,4 @@ jobs:
           name: latest
           tag_name: latest
           generate_release_notes: true
-          files: target/jkube-test-0.0.1.jar
+          files: target/jkube-test-latest.jar

@@ -40,8 +40,9 @@ jobs:
         id: version_latest
         if: "!startsWith(github.ref, 'refs/tags/')"
         run: |
-          ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml versions:set -DgenerateBackupPoms=false -DnewVersion=latest
-          echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> ${GITHUB_OUTPUT}
+          NEW_VERSION=$(date -I)_$(echo ${GITHUB_SHA} | cut -c1-8)
+          ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml versions:set -DgenerateBackupPoms=false -DnewVersion="${NEW_VERSION}"
+          echo "NEW_VERSION=${NEW_VERSION}" >> ${GITHUB_OUTPUT}
 
       - name: Package
         run: ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml package
@@ -57,9 +58,11 @@ jobs:
       - name: Release latest
         uses: softprops/action-gh-release@v1
         if: "!startsWith(github.ref, 'refs/tags/')"
+        env:
+          NEW_VERSION: ${{ steps.version_latest.outputs.NEW_VERSION }}
         with:
           prerelease: true
-          name: latest
-          tag_name: ${{ steps.version_latest.outputs.sha8}}
+          name: ${NEW_VERSION}
+          tag_name: ${NEW_VERSION}
           generate_release_notes: true
-          files: target/jkube-test-latest.jar
+          files: target/jkube-test-${NEW_VERSION}.jar

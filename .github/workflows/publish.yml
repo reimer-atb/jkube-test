@@ -3,11 +3,10 @@ name: publish
 on:
   push:
     tags:
-      - '[0-9].[0-9]+.[0-9]+'
+      - "[0-9].[0-9]+.[0-9]+"
 
 jobs:
   publish:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +17,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'temurin'
+          distribution: "temurin"
 
       - name: Cache Maven Dependencies
         uses: actions/cache@v3

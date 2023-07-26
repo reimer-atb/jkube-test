@@ -5,14 +5,13 @@ on:
     branches:
       - main
     tags-ignore:
-      - '**'
+      - "**"
   pull_request:
     branches:
-      - '**'
+      - "**"
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +22,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'temurin'
+          distribution: "temurin"
 
       - name: Cache Maven Dependencies
         uses: actions/cache@v3

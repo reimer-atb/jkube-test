@@ -41,7 +41,9 @@ jobs:
           echo "NEW_VERSION=${NEW_VERSION}" >> ${GITHUB_OUTPUT}
 
       - name: Package
-        run: ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml package
+        run: |
+          git symbolic-ref HEAD
+          ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml package
 
       - name: Release tag
         uses: softprops/action-gh-release@v1

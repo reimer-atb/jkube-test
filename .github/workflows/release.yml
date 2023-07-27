@@ -29,7 +29,6 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build new version
-        id: build_new_version
         run: |
           NEW_VERSION=$(date -I)_$(echo ${GITHUB_SHA} | cut -c1-8)
           IS_PRE_RELEASE=true
@@ -40,14 +39,14 @@ jobs:
           # build new version release
           ./mvnw --batch-mode --errors --fail-at-end --show-version --file pom.xml package
           # make variable available in later steps
-          echo "NEW_VERSION=${NEW_VERSION}" >> ${GITHUB_OUTPUT}
-          echo "IS_PRE_RELEASE=${IS_PRE_RELEASE}" >> ${GITHUB_OUTPUT}
+          echo "NEW_VERSION=${NEW_VERSION}" >> ${GITHUB_ENV}
+          echo "IS_PRE_RELEASE=${IS_PRE_RELEASE}" >> ${GITHUB_ENV}
 
       - name: Release new version
         uses: softprops/action-gh-release@v1
         with:
-          prerelease: ${{ steps.build_new_version.outputs.IS_PRE_RELEASE }}
-          name: ${{ steps.build_new_version.outputs.NEW_VERSION }}
-          tag_name: ${{ steps.build_new_version.outputs.NEW_VERSION }}
+          prerelease: ${{ env.IS_PRE_RELEASE }}
+          name: ${{ env.NEW_VERSION }}
+          tag_name: ${{ env.NEW_VERSION }}
           generate_release_notes: true
-          files: target/jkube-test-${{ steps.build_new_version.outputs.NEW_VERSION }}.jar
+          files: target/jkube-test-${{ env.NEW_VERSION }}.jar

@@ -103,7 +103,7 @@
                 <configuration>
                     <from>
                         <image>
-                            eclipse-temurin:17.0.4.1_1-jre-jammy@sha256:4cc7dfdfb7837f35c3820bcfbc5f666521364e2198960322848ab7d3e2ca3e88
+                            eclipse-temurin:17.0.8_7-jre-jammy@sha256:b8af44d6a7e0615a7486d7307dd54bba23ff24e3aea14893fd2795e8c436d44e
                         </image>
                     </from>
                     <to>

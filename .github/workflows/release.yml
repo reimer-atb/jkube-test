@@ -50,4 +50,4 @@ jobs:
           name: ${{ env.NEW_VERSION }}
           tag_name: ${{ env.NEW_VERSION }}
           generate_release_notes: true
-          files: ${{ GITHUB_WORKSPACE }}/target/jkube-test-${{ env.NEW_VERSION }}.jar
+          files: ${{ env.GITHUB_WORKSPACE }}/target/jkube-test-${{ env.NEW_VERSION }}.jar

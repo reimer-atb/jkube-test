@@ -42,6 +42,8 @@ jobs:
           # make variable available in later steps
           echo "NEW_VERSION=${NEW_VERSION}" >> ${GITHUB_ENV}
           echo "IS_PRE_RELEASE=${IS_PRE_RELEASE}" >> ${GITHUB_ENV}
+          cd src/main/resources
+          ls -alh
 
       - name: Release new version
         uses: softprops/action-gh-release@v1
@@ -50,4 +52,4 @@ jobs:
           name: ${{ env.NEW_VERSION }}
           tag_name: ${{ env.NEW_VERSION }}
           generate_release_notes: true
-          files: "${{ env.GITHUB_WORKSPACE }}/target/jkube-test-${{ env.NEW_VERSION }}.jar"
+          files: target/jkube-test-${{ env.NEW_VERSION }}.jar
